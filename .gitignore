@@ -1,0 +1,8 @@
+# Ignorar arquivos e pastas do projeto
+.env
+Dockerfile
+docker-compose.yml
+requirements.txt
+run.py
+
+
