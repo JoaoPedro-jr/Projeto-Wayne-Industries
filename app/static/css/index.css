@@ -1,5 +1,5 @@
 body {
-            background: #181a1b;
+            background: #181a1b !important;
             color: #e0e0e0;
             min-height: 100vh;
             display: flex;

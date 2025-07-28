@@ -1,6 +1,6 @@
 body {
-    background: #181a1b;
-    color: #e0e0e0;
+    background: #181a1b !important;
+    color: #e0e0e0 !important;
     min-height: 100vh;
     display: flex;
     flex-direction: column;

@@ -4,7 +4,9 @@ load_dotenv()
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'wayne-enterprises-security-system-2024-gotham-city'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///wayne_security.db'
+
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    print(f"DATABASE_URL: {SQLALCHEMY_DATABASE_URI}")  # Debugging line to check the database URI
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     MAX_LOGIN_ATTEMPTS = 3 # Máximo tentativas de login
     LOCKOUT_DURATION = 15  # minutos

@@ -17,6 +17,7 @@ class UsuarioModel(UserMixin , db.Model):
     ultimo_acesso = db.Column(db.DateTime)
     tentativas_login = db.Column(db.Integer, default=0)
     nivel = db.relationship('NivelModel', backref='usuarios')
+    primeiro_acesso = db.Column(db.Boolean, default=True)
 
     def get_id(self):
         return str(self.usuario_id)

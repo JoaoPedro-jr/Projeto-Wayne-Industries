@@ -27,11 +27,15 @@ def login():
         # se não, eu retorno uma mensagem de erro
         if usuario and usuario.check_senha(password):
             login_user(usuario)
-            return redirect(url_for('auth.test'))  # Por enquanto redireciona para o test
+
+            if usuario.primeiro_acesso:
+                # Redireciona para a página de troca de senha obrigatória
+                return redirect(url_for('auth.alterar_senha_primeiro_acesso'))
+            return redirect(url_for('dashboard_bp.dashboard_view'))  # Redireciona para o dashboard
         else:
             flash('Email ou senha inválidos!', 'error')
             return render_template('auth/login.html')
-   # Se for GET, mostra o formulário de login
+# Se for GET, mostra o formulário de login
    return render_template('auth/login.html')
 
 @auth_bp.route('/logout')
@@ -42,7 +46,6 @@ def logout():
     return redirect(url_for('auth.login'))
 
 @auth_bp.route('/alterar-senha', methods=['GET', 'POST'])
-
 def alterar_senha():
     if request.method == 'POST':
         senha_atual = request.form.get('senha_atual')
@@ -65,6 +68,28 @@ def alterar_senha():
         db.commit()
         flash('Senha alterada com sucesso!, faça login novamente.', 'success')
         return redirect(url_for('auth.login'))  # Redireciona para mostrar a mensagem
+    
+    # Se for GET, mostra o formulário
+    return render_template('auth/alterar_senha.html')
+
+@auth_bp.route('/alterar-senha-primeiro-acesso', methods=['GET', 'POST'])
+def alterar_senha_primeiro_acesso():
+    if request.method == 'POST':
+        nova_senha = request.form.get('nova_senha')
+        confirmar_senha = request.form.get('confirmar_senha')
+        if not nova_senha or not confirmar_senha:
+            flash('Preencha todos os campos!', 'warning')
+            return render_template('auth/alterar_senha.html')
+        
+        if nova_senha != confirmar_senha:
+            flash('As novas senhas não coincidem!', 'error')
+            return render_template('auth/alterar_senha.html')
+        
+        current_user.set_senha(nova_senha)
+        current_user.primeiro_acesso = False
+        db.session.commit()
+        flash('Senha alterada com sucesso! Realize o login novamente.', 'success')
+        return redirect(url_for('auth.login'))  # Redireciona para o login
     
     # Se for GET, mostra o formulário
     return render_template('auth/alterar_senha.html')

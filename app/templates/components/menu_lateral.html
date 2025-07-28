@@ -1,0 +1,45 @@
+<aside class="d-flex flex-column flex-shrink-0 p-3 bg-dark text-white" style="width: 220px; min-height: 100vh;">
+  <a href="/dashboard" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+    <span class="fs-4" style="font-weight: bold; letter-spacing: 1px;">Wayne Industries</span>
+  </a>
+  <hr>
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li class="nav-item">
+      <a href="{{ url_for('dashboard_bp.dashboard_view') }}" class="nav-link text-white">
+        <i class="bi bi-speedometer2"></i> Dashboard
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('usuarios.listar_usuarios') }}" class="nav-link text-white">
+        <i class="bi bi-people"></i> Usuários
+      </a>
+    </li>
+    <li>
+      <a href="" class="nav-link text-white">
+        <i class="bi bi-shield-lock"></i> Níveis de Acesso
+      </a>
+    </li>
+    <li>
+      <a href="" class="nav-link text-white">
+        <i class="bi bi-key"></i> Recursos
+      </a>
+    </li>
+    <li>
+      <a href=" class="nav-link text-white">
+        <i class="bi bi-clock-history"></i> Atividades e Logs
+      </a>
+    </li>
+    <li>
+      <a href="" class="nav-link text-white">
+        <i class="bi bi-key"></i> Alterar Senha
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('auth.logout') }}" class="nav-link text-white">
+        <i class="bi bi-box-arrow-right"></i> Sair
+      </a>
+    </li>
+  </ul>
+  <hr>
+  <div class="text-center small text-secondary">&copy; 2025 Wayne Industries</div>
+</aside>

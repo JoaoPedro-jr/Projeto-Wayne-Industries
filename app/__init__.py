@@ -30,9 +30,12 @@ def create_app():
 
     from app.routes.auth_routes import auth_bp
     from app.routes.main_routes import index_bp
+    from app.routes.dashboard_routes import dashboard_bp
+    from app.routes.usuarios_routes import usuarios_bp
     app.register_blueprint(auth_bp, url_prefix='/auth') # Registra o blueprint de autenticação
     app.register_blueprint(index_bp, url_prefix='/')  # Registra o blueprint principal
-
+    app.register_blueprint(dashboard_bp, url_prefix='/dashboard')  # Registra o blueprint do dashboard
+    app.register_blueprint(usuarios_bp, url_prefix='/usuarios')  # Registra o blueprint de usuários
 
 
     return app

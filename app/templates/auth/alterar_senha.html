@@ -1,0 +1,33 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+<div class="container mt-5" style="max-width: 400px;">
+    <h3 class="mb-4 text-center">Alterar Senha</h3>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ 'warning' if category == 'warning' else category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <form method="post">
+        {% if request.endpoint == 'auth.alterar_senha' %}
+        <div class="mb-3">
+            <label for="senha_atual" class="form-label">Senha Atual</label>
+            <input type="password" class="form-control" id="senha_atual" name="senha_atual" required>
+        </div>
+        {% endif %}
+        <div class="mb-3">
+            <label for="nova_senha" class="form-label">Nova Senha</label>
+            <input type="password" class="form-control" id="nova_senha" name="nova_senha" required>
+        </div>
+        <div class="mb-3">
+            <label for="confirmar_senha" class="form-label">Confirmar Nova Senha</label>
+            <input type="password" class="form-control" id="confirmar_senha" name="confirmar_senha" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Alterar Senha</button>
+    </form>
+</div>
+{% endblock %}
