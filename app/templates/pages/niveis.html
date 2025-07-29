@@ -1,0 +1,105 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 style="color: #ffc107;">Níveis de Acesso</h2>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAdicionarNivel">
+            <i class="bi bi-plus"></i> Adicionar Nível
+        </button>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ 'warning' if category == 'warning' else category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for nivel in niveis %}
+            <tr>
+                <td>{{ nivel.nivel_id }}</td>
+                <td>{{ nivel.nome }}</td>
+                <td>{{ nivel.descricao }}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning" title="Editar" data-bs-toggle="modal" data-bs-target="#modalEditarNivel{{ nivel.nivel_id }}">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                    <form action="{{ url_for('niveis.excluir_nivel', id=nivel.nivel_id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger" title="Excluir" onclick="return confirm('Tem certeza que deseja excluir este nível?');">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            <!-- Modal Editar Nível -->
+            <div class="modal fade" id="modalEditarNivel{{ nivel.nivel_id }}" tabindex="-1" aria-labelledby="modalEditarNivelLabel{{ nivel.nivel_id }}" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <form action="{{ url_for('niveis.editar_nivel', id=nivel.nivel_id) }}" method="post">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modalEditarNivelLabel{{ nivel.nivel_id }}">Editar Nível</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="nomeNivel{{ nivel.nivel_id }}" class="form-label">Nome</label>
+                        <input type="text" class="form-control" id="nomeNivel{{ nivel.nivel_id }}" name="nome" value="{{ nivel.nome }}" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="descricaoNivel{{ nivel.nivel_id }}" class="form-label">Descrição</label>
+                        <input type="text" class="form-control" id="descricaoNivel{{ nivel.nivel_id }}" name="descricao" value="{{ nivel.descricao }}" required>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                      <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Adicionar Nível -->
+<div class="modal fade" id="modalAdicionarNivel" tabindex="-1" aria-labelledby="modalAdicionarNivelLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="{{ url_for('niveis.adicionar_nivel') }}" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalAdicionarNivelLabel">Adicionar Nível</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nomeNivel" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nomeNivel" name="nome" required>
+          </div>
+          <div class="mb-3">
+            <label for="descricaoNivel" class="form-label">Descrição</label>
+            <input type="text" class="form-control" id="descricaoNivel" name="descricao" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Adicionar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

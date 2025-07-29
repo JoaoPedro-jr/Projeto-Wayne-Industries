@@ -32,11 +32,16 @@ def create_app():
     from app.routes.main_routes import index_bp
     from app.routes.dashboard_routes import dashboard_bp
     from app.routes.usuarios_routes import usuarios_bp
+    from app.routes.niveis_routes import niveis_bp
+    from app.routes.recursos_routes import recursos_bp
+    from app.routes.logs_routes import logs_bp
     app.register_blueprint(auth_bp, url_prefix='/auth') # Registra o blueprint de autenticação
     app.register_blueprint(index_bp, url_prefix='/')  # Registra o blueprint principal
     app.register_blueprint(dashboard_bp, url_prefix='/dashboard')  # Registra o blueprint do dashboard
     app.register_blueprint(usuarios_bp, url_prefix='/usuarios')  # Registra o blueprint de usuários
-
+    app.register_blueprint(niveis_bp, url_prefix='/niveis')  # Registra o blueprint de níveis
+    app.register_blueprint(recursos_bp, url_prefix='/recursos')  # Registra o blueprint de recursos
+    app.register_blueprint(logs_bp, url_prefix='/logs')  # Registra o blueprint de logs
 
     return app
 

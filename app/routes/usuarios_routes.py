@@ -35,6 +35,9 @@ def api_usuarios():
 @usuarios_bp.route("/api/usuarios/", methods=["GET", "POST"])
 @login_required
 def criar_usuario():
+    if not current_user.is_admin():
+        flash('Acesso negado!')
+        return redirect(url_for('dashboard_bp.dashboard_view'))
     from app.models.nivel_model import NivelModel
     usuarios = UsuarioModel.query.all()
     niveis = NivelModel.query.all()
@@ -80,6 +83,9 @@ def criar_usuario():
 @usuarios_bp.route("/api/usuarios/<int:id>", methods=["POST"])
 @login_required
 def excluir_usuario(id):
+    if not current_user.is_admin():
+        flash('Acesso negado!')
+        return redirect(url_for('dashboard_bp.dashboard_view'))
     usuario = UsuarioModel.query.get_or_404(id)
     db.session.delete(usuario)
     db.session.commit()
@@ -89,6 +95,9 @@ def excluir_usuario(id):
 @usuarios_bp.route('/api/usuarios/<int:id>/editar', methods=['GET', 'POST'])
 @login_required
 def editar_usuario(id):
+    if not current_user.is_admin():
+        flash('Acesso negado!')
+        return redirect(url_for('dashboard_bp.dashboard_view'))
     from app.models.nivel_model import NivelModel
     usuario = UsuarioModel.query.get_or_404(id)
     usuarios = UsuarioModel.query.all()
@@ -132,3 +141,29 @@ def alterar_senha_usuario(id):
     usuario.primeiro_acesso = False  # Marca como não sendo o primeiro acesso
     db.session.commit()
     return {"message": "Senha alterada com sucesso!"}, 200
+
+
+@usuarios_bp.route('/api/usuarios/<int:id>/desativar', methods=['POST'])
+def desativar_nivel_usuario(id):
+    if not current_user.is_admin():
+        flash('Acesso negado!')
+        return redirect(url_for('dashboard_bp.dashboard_view'))
+
+    usuario = UsuarioModel.query.get_or_404(id)
+    usuario.ativo = False
+    db.session.commit()
+    flash('Usuário desativado com sucesso!', 'success')
+    return redirect(url_for('usuarios.listar_usuarios'))
+
+
+
+@usuarios_bp.route('/api/usuarios/<int:id>/reativar', methods=['POST'])
+def reativar_nivel_usuario(id):
+    if not current_user.is_admin():
+        flash('Acesso negado!')
+        return redirect(url_for('dashboard_bp.dashboard_view'))
+    usuario = UsuarioModel.query.get_or_404(id)
+    usuario.ativo = True
+    db.session.commit()
+    flash('Usuário reativado com sucesso!', 'success')
+    return redirect(url_for('usuarios.listar_usuarios'))

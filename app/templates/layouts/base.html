@@ -13,10 +13,12 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body style="background: #181a1b;">
-    {% block sidebar %}{% endblock %}
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+    <div class="d-flex">
+        {% include 'components/menu_lateral.html' %}
+        <main class="flex-grow-1 p-4">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
     <footer class="text-center text-secondary py-3">
         &copy; 2025 Wayne Industries
     </footer>
